@@ -1,64 +1,96 @@
+##James Harry U. Prado
+##BSIT 2C
+
+##Set up a vector named age, consisting of 34, 28, 22, 36, 27, 18, 52, 39, 42,
+29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 42,
+53, 41, 51, 35, 24, 33, 41.
+```{r}
 age <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 42, 53, 41, 51, 35, 24, 33, 41)	
-length(age)
-print(age)
+data_points_age <- length(age)
+print(data_points_age)
+```
 
-
+```{r}
 reciprocal_age <- 1 / age	
 reciprocal_age
+```
 
+```{r}
 new_age <- c(age, 0, age)	
 print(new_age)
 print(length(new_age))
+```
 
+```{r}
 sorted_age <- sort(age)
 print(sorted_age)
+```
 
+```{r}
 minimum_age <- min(age)
 maximum_age <- max(age)
 cat("Minimum Age:", minimum_age, "\n")
 cat("Maximum Age:", maximum_age, "\n")
+```
 
+```{r}
 data <- c(2.4, 2.8, 2.1, 2.5, 2.4, 2.2, 2.5, 2.3, 2.5, 2.3, 2.4, 2.7)
 num_data_points <- length(data)
 cat("The vector 'data' is:\n")
 print(data)
 cat("\nNumber of data points (length(data)):\n")
 print(num_data_points)
+```
 
+```{r}
 doubled_data <- data * 2
 cat("Original 'data' vector:\n")
 print(data)
 cat("\n'doubled_data' vector (data * 2):\n")
 print(doubled_data)
+```
 
+```{r}
 seq_8_1 <- 1:100
 cat("8.1 Integers from 1 to 100 (Showing first 6 elements):\n")
 print(head(seq_8_1))
 cat("Length of sequence 8.1:", length(seq_8_1), "\n\n")
+```
 
+```{r}
 seq_8_2 <- 20:60
 cat("8.2 Numbers from 20 to 60:\n")
 print(seq_8_2)
 cat("Length of sequence 8.2:", length(seq_8_2), "\n\n")
+```
 
+```{r}
 mean_8_3 <- mean(20:60)
 cat("8.3 Mean of numbers from 20 to 60:\n")
 print(mean_8_3)
 cat("Number of data points for 8.3 (a single value):", 1, "\n\n")
+```
 
+```{r}
 sum_8_4 <- sum(51:91)
 cat("8.4 Sum of numbers from 51 to 91:\n")
 print(sum_8_4)
 cat("Number of data points for 8.4 (a single value):", 1, "\n")
+```
 
+```{r}
 filtered_vector <- Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
 cat("Integers between 1 and 100 not divisible by 3, 5, or 7:\n")
 print(filtered_vector)
+```
 
+```{r}
 reverse_sequence <- 100:1
 cat("Sequence of integers from 100 down to 1:\n")
 print(reverse_sequence)
+```
 
+```{r}
 numbers_below_25 <- 1:25
 multiples_list <- numbers_below_25[ (numbers_below_25 %% 3 == 0) | (numbers_below_25 %% 5 == 0) ]
 cat("List of natural numbers below 25 that are multiples of 3 or 5:\n")
@@ -67,11 +99,15 @@ print(multiples_list)
 multiples_list <- numbers_to_25[ (numbers_to_25 %% 3 == 0) | (numbers_to_25 %% 5 == 0) ]
 cat("10. List of multiples of 3 or 5 below 25 (11 data points):\n")
 print(multiples_list)
+```
 
+```{r}
 multiples_sum <- sum(multiples_list)
 cat("\n11. Sum of these multiples (1 data point):\n")
 print(multiples_sum)
+```
 
+```{r}
 score <- c(72, 86, 92, 63, 88, 89, 91, 92, 75, 75, 77)
 element_2 <- score[2]
 element_3 <- score[3]
@@ -81,13 +117,17 @@ cat("\nElement at index 2 (score[2]):\n")
 print(element_2)
 cat("\nElement at index 3 (score[3]):\n")
 print(element_3)
+```
 
+```{r}
 a <- c(1, 2, NA, 4, NA, 6, 7)
 cat("Output using print(a, na.print=\"-999\"):\n")
 print(a, na.print="-999")
 cat("\nActual data in vector 'a' remains unchanged:\n")
 print(a)
+```
 
+```{r}
 x <- c(2, 3, 4)
 cat("Initial class of x:\n")
 initial_class <- class(x)
@@ -96,3 +136,4 @@ class(x) <- "foo"
 cat("\nNew class of x after assignment:\n")
 new_class <- class(x)
 print(new_class)
+```
