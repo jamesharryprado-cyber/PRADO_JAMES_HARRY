@@ -1,0 +1,153 @@
+---
+title: "RWorksheet_prado#3a"
+author: "Prado, James Harry U."
+date: "2025-10-13"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Q1a: Produce a vector that contains the first 11 letters
+LETTERS[1:11]
+```
+
+```{r}
+# Q1b: Produce a vector that contains the odd numbered letters (1, 3, 5, ..., 25)
+LETTERS[seq(1, 26, by = 2)]
+```
+
+```{r}
+# Q1c: Produce a vector that contains the vowels
+LETTERS[c(1, 5, 9, 15, 21)] # A, E, I, O, U
+```
+
+```{r}
+# Q1d: Produce a vector that contains the last 5 lowercase letters
+letters[22:26] # V to Z
+```
+
+```{r}
+# Q1e: Produce a vector that contains letters between 15 to 24 letters in lowercase
+letters[15:24]
+```
+
+```{r}
+# Q2a: Create character vector for cities
+city <- c("Tuguegarao City", "Manila", "Iloilo City", "Tacloban", "Samal Island", "Davao City")
+city
+```
+
+```{r}
+# Q2b: Create numeric vector for temperatures
+temp <- c(42, 39, 34, 34, 30, 27)
+temp
+```
+
+```{r}
+# Q2c: Create a dataframe to combine city and temp
+df <- data.frame(city, temp)
+df
+```
+
+```{r}
+# Q2e: Print the structure by using str() function
+str(df)
+```
+
+```{r}
+# Q2f: Content of row 3 and row 4
+df[3:4, ]
+```
+
+```{r}
+# Q2g: Display the city with highest and lowest temperature
+
+# City with highest temperature (using which.max)
+highest_temp_city <- df[which.max(df$Temperature), ]
+
+# City with lowest temperature (using which.min)
+lowest_temp_city <- df[which.min(df$Temperature), ]
+
+cat("City with Highest Temperature:\n")
+print(highest_temp_city)
+cat("\nCity with Lowest Temperature:\n")
+print(lowest_temp_city)
+```
+
+```{r}
+# Q2a: Create a matrix of one to eight (1:8) and eleven to fourteen (11:14)
+# Data sequence: 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 13, 14 (total 12 elements)
+# Dimensions: 4 columns and 3 rows
+data_vector <- c(1:8, 11:14)
+matrix_a <- matrix(data_vector, nrow = 3, ncol = 4)
+matrix_a
+```
+
+```{r}
+# Q2b: Multiply the matrix by two
+matrix_b <- matrix_a * 2
+matrix_b
+```
+
+```{r}
+# Q2c: What is the content of row 2?
+# The output is the R code's result.
+matrix_a[2, ]
+```
+
+```{r}
+# Q2d: Display column 3 and column 4 in row 1 and row 2
+matrix_a[1:2, 3:4]
+```
+
+```{r}
+# Q2e: Display only the columns in 2 and 3, row 3
+matrix_a[3, 2:3]
+```
+
+```{r}
+# Q2f: Display only column 4
+matrix_a[, 4]
+```
+
+```{r}
+# Q2g: Name rows as isa, dalawa, tatlo and columns as uno, dos, tres, quatro
+rownames(matrix_b) <- c("isa", "dalawa", "tatlo")
+colnames(matrix_b) <- c("uno", "dos", "tres", "quatro")
+matrix_b
+```
+
+```{r}
+# Q3a: Create an array with the values repeated twice, 4 columns, 2 rows, 3 dimensions
+values_3a <- c(1, 2, 3, 6, 7, 8, 9, 0, 3, 4, 5, 1) # 12 unique values
+data_3a <- rep(values_3a, 2) # Total 24 elements
+# dim = c(rows, columns, dimensions) = c(2, 4, 3)
+array_3a <- array(data_3a, dim = c(2, 4, 3))
+array_3a
+```
+
+```{r}
+#Q3bIt has 3 dimensions
+```
+
+```{r}
+# Q3c: Name rows, columns, and dimensions
+
+# Row names (2 rows)
+row_names <- letters[1:2] # a, b
+
+# Column names (4 columns)
+col_names <- LETTERS[1:4] # A, B, C, D
+
+# Dimension names (3 dimensions)
+dim_names <- c("1st-Dimensional Array", "2nd-Dimensional Array", "3rd-Dimensional Array")
+
+# Apply names
+dimnames(array_3a) <- list(row_names, col_names, dim_names)
+array_3a
+```

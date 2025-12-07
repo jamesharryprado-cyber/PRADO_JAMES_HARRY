@@ -1,0 +1,194 @@
+---
+title: "Worksheet"
+author: "Prado, James Harry U."
+date: "2025-11-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Install if needed: install.packages(c("tidyverse", "readxl"))
+library(tidyverse)
+library(readxl)
+```
+
+```{r}
+# Q1a: Describe the data
+print("Structure of the mpg dataset:")
+str(mpg)
+print("\nSummary of the mpg dataset:")
+summary(mpg)
+```
+
+```{r}
+# Q1b: Plot the number of cars per model using geom_bar()
+# Use fct_reorder to sort the bars by count for better visualization
+mpg %>%
+  ggplot(aes(x = fct_reorder(model, model, .fun = length))) +
+  geom_bar(fill = "steelblue") +
+  labs(
+    title = "Number of Cars per Model in the MPG Dataset",
+    x = "Model",
+    y = "Number of Cars"
+  ) +
+  coord_flip() + # Flip coordinates for readability
+  theme_minimal()
+```
+
+```{r}
+#Continuous Variables (Numeric): displ (engine displacement), year (often treated as categorical/integer, but numerically continuous), cyl (number of cylinders, often treated as discrete/categorical), cty (city MPG), hwy (highway MPG).
+
+#Categorical Variables (Character/Factor): manufacturer, model, trans (transmission type), drv (drive train), fl (fuel type), class (type of car).
+
+#Continuous Variable for Q1d/Q1e: displ (engine displacement) is a suitable continuous variable for mapping to a scatter plot aesthetic.
+```
+
+```{r}
+# Q1d: Plot cty vs hwy. Color mapped by class.
+ggplot(mpg, aes(x = cty, y = hwy, color = class)) +
+  geom_point(size = 3) +
+  labs(
+    title = "City vs. Highway Mileage by Vehicle Class",
+    x = "City Miles Per Gallon (cty)",
+    y = "Highway Miles Per Gallon (hwy)",
+    color = "Car Class"
+  ) +
+  theme_bw()
+```
+
+```{r}
+# Q1e: Plot displ vs hwy. Color mapped by drv.
+ggplot(mpg, aes(x = displ, y = hwy, color = drv)) +
+  geom_point(size = 3) +
+  labs(
+    title = "Engine Displacement vs. Highway Mileage by Drive Train",
+    x = "Engine Displacement (liters)",
+    y = "Highway Miles Per Gallon (hwy)",
+    color = "Drive Train (drv)"
+  ) +
+  theme_classic()
+```
+
+```{r}
+# Q2a: Import the traffic.csv file
+df_traffic <- read_csv("traffic.csv")
+
+# Get number of observations (rows) and variables (columns)
+cat("Number of Observations (Rows):", nrow(df_traffic), "\n")
+cat("Number of Variables (Columns):", ncol(df_traffic), "\n")
+cat("Variables and their types (using str):\n")
+str(df_traffic)
+```
+
+```{r}
+# Q2b: Subset the traffic dataset into separate data frames for each unique junction
+
+# Assuming 'Junction' is a categorical column in df_traffic
+junctions_list <- split(df_traffic, df_traffic$Junction)
+
+# Display the first few rows of the data for Junction 1 (as an example result)
+print("Subsetted data for Junction 1 (Head):")
+head(junctions_list[[1]])
+```
+
+```{r}
+# Q2c: Plot each junction in a using geom_line()
+# This requires a date/time variable on the x-axis and traffic count on the y-axis.
+# Assuming x-axis = DateTime, y-axis = Vehicles.
+
+ggplot(df_traffic, aes(x = DateTime, y = Vehicles, color = as.factor(Junction))) +
+  geom_line(alpha = 0.7) +
+  labs(
+    title = "Traffic Flow Over Time by Junction",
+    x = "Date and Time",
+    y = "Vehicle Count",
+    color = "Junction ID"
+  ) +
+  facet_wrap(~Junction, scales = "free_y", ncol = 1) + # Plot each junction in its own panel
+  theme_minimal()
+```
+
+```{r}
+# Q3a: Import alexa_file.xlsx (assuming Sheet1)
+df_alexa <- read_excel("alexa_file.xlsx")
+
+# Get info
+cat("Number of Observations (Rows):", nrow(df_alexa), "\n")
+cat("Number of Columns (Variables):", ncol(df_alexa), "\n")
+cat("Variables and their types (using str):\n")
+str(df_alexa)
+```
+
+```{r}
+# Q3b: Group variations and get the total count using dplyr
+variation_counts <- df_alexa %>%
+  group_by(variation) %>%
+  summarise(Total_Reviews = n(), .groups = 'drop')
+
+print("Total Count of Reviews per Variation:")
+variation_counts
+```
+
+```{r}
+# Q3c: Plot the variation counts
+variation_counts %>%
+  ggplot(aes(x = fct_reorder(variation, Total_Reviews), y = Total_Reviews)) +
+  geom_col(fill = "darkgreen") +
+  labs(
+    title = "Total Number of Reviews by Alexa Product Variation",
+    x = "Product Variation",
+    y = "Total Number of Reviews (Count)"
+  ) +
+  coord_flip() + # Flip for better label readability
+  theme_bw()
+```
+
+```{r}
+# Q3d: Plot geom_line() with date and number of verified reviews
+# Requires aggregating the total number of verified reviews per date.
+df_alexa %>%
+  group_by(date) %>%
+  summarise(Total_Verified_Reviews = sum(verified_reviews, na.rm = TRUE), .groups = 'drop') %>%
+  ggplot(aes(x = date, y = Total_Verified_Reviews)) +
+  geom_line(color = "red") +
+  geom_smooth(method = "loess", se = FALSE) + # Optional: add a trend line
+  labs(
+    title = "Trend of Total Verified Reviews Over Time",
+    x = "Date",
+    y = "Total Verified Reviews (Count)"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+# Q3e: Get the relationship of variations and ratings.
+
+# Find the mean rating for each variation
+variation_ratings <- df_alexa %>%
+  group_by(variation) %>%
+  summarise(
+    Mean_Rating = mean(rating, na.rm = TRUE),
+    .groups = 'drop'
+  ) %>%
+  # Find which variation has the highest mean rating
+  arrange(desc(Mean_Rating))
+
+print("Mean Rating by Variation:")
+print(variation_ratings)
+cat("\nVariation with the highest mean rating:", variation_ratings$variation[1])
+
+# Plot the relationship using a column chart
+variation_ratings %>%
+  ggplot(aes(x = fct_reorder(variation, Mean_Rating), y = Mean_Rating)) +
+  geom_col(fill = "purple") +
+  coord_flip() +
+  labs(
+    title = "Average Rating by Alexa Product Variation",
+    x = "Product Variation",
+    y = "Mean Rating (1-5)"
+  ) +
+  theme_bw()
+```

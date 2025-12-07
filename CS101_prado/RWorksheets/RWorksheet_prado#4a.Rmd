@@ -1,0 +1,241 @@
+---
+title: "RWorksheet_prado#4a.Rmd"
+author: "Prado, James Harry U."
+date: "2025-10-20"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Create vectors from the table data (28 observations total)
+Shoe_size <- c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 10.5, 8.5, 12.0, 10.5, 
+               13.0, 11.5, 8.5, 5.0, 10.0, 6.5, 7.5, 8.5, 10.5, 8.5, 10.5, 11.0, 9.0, 13.0)
+Height <- c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 70.0, 71.0, 72.0, 64.0, 74.5, 67.0, 71.0, 71.0, 
+            77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 73.0, 69.0, 72.0, 70.0, 69.0, 70.0)
+Gender <- c("F", "F", "F", "F", "M", "F", "F", "F", "M", "F", "M", "F", "M", "M", 
+            "M", "M", "F", "F", "M", "F", "F", "M", "M", "F", "M", "M", "M", "M")
+
+# Create the data frame
+df_shoes <- data.frame(Shoe_size, Height, Gender)
+print("Data Frame:")
+df_shoes
+print("\nStructure of the Data Frame:")
+str(df_shoes)
+```
+
+```{r}
+# Q1b: Subset by males
+males_subset <- subset(df_shoes, Gender == "M")
+print("Males Subset:")
+males_subset
+
+# Subset by females
+females_subset <- subset(df_shoes, Gender == "F")
+print("\nFemales Subset:")
+females_subset
+```
+
+```{r}
+# Q1c: Find the mean of shoe size and height
+mean_shoe_size <- mean(df_shoes$Shoe_size)
+mean_height <- mean(df_shoes$Height)
+
+cat("Mean Shoe Size (Overall):", round(mean_shoe_size, 2), "\n")
+cat("Mean Height (Overall):", round(mean_height, 2))
+```
+
+```{r}
+#Q1d: Is there a relationship between shoe size and height?
+#Yes, there is likely a positive relationship between shoe size and height.
+```
+
+```{r}
+# Q2: Create the character vector of months
+months_vector <- c("March", "April", "January", "November", "January",
+                   "September", "October", "September", "November", "August",
+                   "January", "November", "November", "February", "May", "August",
+                   "July", "December", "August", "August", "September", "November", "February",
+                   "April")
+
+# Convert the character vector to a factor vector
+factor_months_vector <- factor(months_vector)
+
+print("Character Vector:")
+months_vector
+
+print("\nFactor Vector (R prints levels below values):")
+factor_months_vector
+```
+
+```{r}
+# Q3: Check summary() of both vectors
+print("Summary of Character Vector:")
+summary(months_vector)
+
+print("\nSummary of Factor Vector:")
+summary(factor_months_vector)
+```
+
+```{r}
+# Q4: Create vector and factor for Direction/Frequency
+factor_data <- c("East", "West", "North", "West", "West", "North", "West", "North", "West") # Data must match the frequencies implicitly
+# Note: The problem provides: East (1), West (4), North (3). I'll replicate this ratio.
+
+# The vector data
+direction_vector <- c("East", "West", "West", "West", "West", "North", "North", "North") # 8 elements total
+
+# Create ordered factor with specified levels
+new_order_data <- factor(direction_vector, levels = c("East", "West", "North"))
+
+print("Factor with specified order:")
+print(new_order_data)
+
+# Check frequency to ensure correct ratio representation (as implied by the table)
+# table(new_order_data)
+```
+
+```{r}
+# Q5a: Import the data using read.table()
+# NOTE: This requires the file "import_march.csv" to be in the working directory.
+# Assuming the file structure (Students, Strategy1, Strategy2, Strategy3) has a header.
+# Assuming the data is comma-separated (CSV).
+df_import <- read.table("import_march.csv", header = TRUE, sep = ",")
+
+# If the file is tab-separated (.txt format), use:
+# df_import <- read.table("import_march.txt", header = TRUE)
+```
+
+```{r}
+# Q5b: View the dataset
+View(df_import)
+
+# Alternative for R Markdown output:
+head(df_import)
+```
+
+```{r}
+# Q6: Exhaustive Search Implementation
+
+# Generate a random number between 1 and 50
+User_Input <- sample(1:50, 1) # This simulates the user selecting a number
+
+# We can manually set the input for testing the 'TRUE' condition:
+# User_Input <- 20
+
+cat("Chosen number:", User_Input, "\n")
+
+if (User_Input < 1 || User_Input > 50) {
+  # If the number is beyond the range
+  print("The number selected is beyond the range of 1 to 50")
+} else if (User_Input == 20) {
+  # If number 20 is inputted
+  print("TRUE")
+} else {
+  # Otherwise, display the input number
+  print(User_Input)
+}
+```
+
+```{r}
+# Q7: Minimum Number of Bills Function
+# Available bills: 50, 100, 200, 500, 1000
+
+calculate_min_bills <- function(price) {
+  # Bills are listed from largest to smallest for greedy approach
+  bills <- c(1000, 500, 200, 100, 50)
+  num_bills <- 0
+  remaining_price <- price
+
+  for (bill in bills) {
+    if (remaining_price >= bill) {
+      # Calculate how many of the current bill are needed
+      count <- floor(remaining_price / bill)
+      num_bills <- num_bills + count
+      # Update the remaining amount
+      remaining_price <- remaining_price - (count * bill)
+    }
+  }
+
+  cat("Price of snack:", price, "pesos\n")
+  return(num_bills)
+}
+
+# Test cases:
+# Random price divisible by 50 between 100 and 1500
+random_price <- sample(seq(100, 1500, by = 50), 1)
+min_bills_needed <- calculate_min_bills(random_price)
+cat("Minimum number of bills needed to purchase a snack:", min_bills_needed)
+```
+
+```{r}
+# Q8a: Create data frame from table
+Name <- c("Annie", "Thea", "Steve", "Hanna")
+Grade1 <- c(85, 65, 75, 95)
+Grade2 <- c(65, 75, 55, 75)
+Grade3 <- c(85, 90, 80, 100)
+Grade4 <- c(100, 90, 85, 90)
+
+df_grades <- data.frame(Name, Grade1, Grade2, Grade3, Grade4)
+print("Student Grades Data Frame:")
+df_grades
+```
+
+```{r}
+# Q8b: Average score over 90 (without mean function)
+
+for (i in 1:nrow(df_grades)) {
+  # Calculate sum and count manually
+  total_score <- df_grades[i, "Grade1"] + df_grades[i, "Grade2"] + df_grades[i, "Grade3"] + df_grades[i, "Grade4"]
+  grade_count <- 4 # Number of grades is fixed at 4
+  average <- total_score / grade_count
+
+  # Check condition
+  if (average > 90) {
+    cat(df_grades[i, "Name"], "'s average grade this semester is ", average, ".\n", sep = "")
+  }
+}
+```
+
+```{r}
+# Q8c: Output tests where average score was less than 80 (without mean function)
+
+# Extract only the grade columns
+grades_only <- df_grades[, 2:5] # Grade1 to Grade4
+
+for (j in 1:ncol(grades_only)) {
+  # Calculate column sum and column count manually
+  col_sum <- sum(grades_only[, j])
+  col_count <- nrow(grades_only)
+  test_average <- col_sum / col_count
+
+  # Check condition
+  if (test_average < 80) {
+    # Test column index j corresponds to the nth test (1st, 2nd, 3rd, 4th)
+    cat("The ", j, "th test was difficult.\n", sep = "")
+  }
+}
+```
+
+```{r}
+# Q8d: Students whose highest score exceeds 90 (without max function)
+
+for (i in 1:nrow(df_grades)) {
+  student_grades <- as.numeric(df_grades[i, 2:5]) # Get the four grades
+
+  # Check if any grade is greater than 90.
+  # We use the 'any' function to check for the condition across the vector.
+  if (any(student_grades > 90)) {
+    # Manually find the maximum (instead of using max())
+    highest_grade <- -Inf # Initialize with negative infinity
+    for (grade in student_grades) {
+      if (grade > highest_grade) {
+        highest_grade <- grade
+      }
+    }
+    cat(df_grades[i, "Name"], "'s highest grade this semester is ", highest_grade, ".\n", sep = "")
+  }
+}
+```

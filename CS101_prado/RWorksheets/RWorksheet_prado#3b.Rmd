@@ -1,0 +1,199 @@
+---
+title: "RWorksheet_prado#3b.Rmd"
+author: "Prado, James Harry U."
+date: "2025-10-20"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# Q1a: Create vectors based on the table data
+Respondent <- 1:20
+Fathers_Occupation_Code <- c(2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 3, 2, 2, 2, 2, 2)
+Sex_Code <- c(1, 3, 3, 3, 1, 2, 3, 1, 1, 1, 3, 2, 1, 3, 2, 1, 3, 1, 1, 1) # Note: Assuming the table columns are Father's Occ, then Sex.
+Persons_at_Home <- c(5, 7, 3, 8, 5, 9, 6, 7, 8, 4, 7, 5, 4, 7, 8, 8, 3, 11, 7, 6)
+Siblings_at_School <- c(6, 4, 4, 1, 2, 1, 5, 3, 1, 2, 3, 2, 5, 5, 2, 1, 2, 5, 3, 2)
+Types_of_Houses_Code <- c(1, 2, 3, 1, 1, 3, 3, 1, 2, 3, 2, 3, 2, 2, 3, 3, 3, 3, 3, 2)
+
+# Create the data frame
+df1 <- data.frame(
+  Respondent,
+  Fathers_Occupation_Code,
+  Sex_Code,
+  Persons_at_Home,
+  Siblings_at_School,
+  Types_of_Houses_Code
+)
+
+print("Data Frame 1:")
+df1
+```
+
+```{r}
+##Write a R program to create an empty data frame. Using the following codes:
+df = data.frame(Ints=integer(),
+
+Doubles=double(), Characters=character(),
+Logicals=logical(),
+Factors=factor(),
+stringsAsFactors=FALSE)
+
+print("Structure of the empty dataframe:")
+print(str(df))
+```
+
+```{r}
+# Q1b: Get structure of the data
+print("Structure (str):")
+str(df1)
+
+# Get summary of the data
+print("\nSummary (summary):")
+summary(df1)
+```
+
+```{r}
+# Q1c: Calculate the mean number of siblings attending school
+mean_siblings <- mean(df1$Siblings_at_School)
+
+cat("Mean number of siblings attending school:", mean_siblings, "\n")
+cat("Is the mean number of siblings attending 5? ", mean_siblings == 5)
+```
+
+```{r}
+# Q1d: Extract the 1st two rows and all the columns
+df1[1:2, ]
+```
+
+```{r}
+# Q1e: Extract 3rd and 5th row with 2nd and 4th column
+df1[c(3, 5), c(2, 4)]
+```
+
+```{r}
+# Q1f: Select the variable types of houses then store the vector that results as types_houses
+types_houses <- df1$Types_of_Houses_Code
+print("types_houses vector created:")
+types_houses
+```
+
+```{r}
+# Q1g: Select Males (Sex_Code == 1) whose father occupation was farmer (Fathers_Occupation_Code == 1)
+df1[df1$Sex_Code == 1 & df1$Fathers_Occupation_Code == 1, ]
+```
+
+```{r}
+# Q1h: Select Females (Sex_Code == 2) with Siblings_at_School >= 5
+df1[df1$Sex_Code == 2 & df1$Siblings_at_School >= 5, ]
+```
+
+```{r}
+df = data.frame(Ints=integer(), Doubles=double(), Characters=character(), Logicals=logical(), Factors=factor(), stringsAsFactors=FALSE)
+print("Structure of the empty dataframe:")
+print(str(df))
+```
+
+```{r}
+# Create vectors for the 10-respondent table
+Respondent_Q3 <- 1:10
+Sex_Q3 <- c("Male", "Female", "Female", "Male", "Male", "Female", "Female", "Male", "Female", "Male")
+Fathers_Occupation_Q3 <- c(1, 2, 3, 3, 1, 2, 2, 3, 1, 3) # Codes: 1=Farmer, 2=Driver, 3=Others
+Persons_at_Home_Q3 <- c(5, 7, 3, 8, 6, 4, 4, 2, 11, 6)
+Siblings_at_School_Q3 <- c(2, 3, 0, 5, 2, 3, 1, 2, 6, 2)
+Types_of_Houses_Q3 <- c("Wood", "Congrete", "Congrete", "Wood", "Semi-congrete", "Semi-congrete", "Wood", "Semi-congrete", "Semi-congrete", "Congrete")
+
+df3 <- data.frame(
+  Respondent = Respondent_Q3,
+  Sex = Sex_Q3,
+  Fathers_Occupation_Code = Fathers_Occupation_Q3,
+  Persons_at_Home = Persons_at_Home_Q3,
+  Siblings_at_School = Siblings_at_School_Q3,
+  Types_of_Houses = Types_of_Houses_Q3
+)
+
+print("Data Frame 3 (Initial):")
+df3
+```
+
+```{r}
+# Q3a: Create a csv file of this and save it as HouseholdData.csv
+write.csv(df3, "HouseholdData.csv", row.names = FALSE)
+cat("File 'HouseholdData.csv' created.\n")
+
+# Import the csv file into the R environment
+df3_imported <- read.csv("HouseholdData.csv")
+print("Data frame imported:")
+head(df3_imported)
+```
+
+```{r}
+# Q3b: Convert Sex into factor using factor() and change it into integer
+# Use levels/labels to ensure correct numeric conversion (Male=1, Female=2)
+
+df3_imported$Sex_Factor <- factor(
+  df3_imported$Sex,
+  levels = c("Male", "Female"),
+  labels = c(1, 2)
+)
+
+df3_imported$Sex_Integer <- as.integer(as.character(df3_imported$Sex_Factor))
+
+print("Data frame with new Sex factors/integers:")
+df3_imported[, c("Sex", "Sex_Integer")]
+```
+
+```{r}
+# Q3c: Convert Type of Houses into factor and change it into integer
+# Define levels/labels for correct numeric conversion
+
+df3_imported$House_Factor <- factor(
+  df3_imported$Types_of_Houses,
+  levels = c("Wood", "Congrete", "Semi-congrete"),
+  labels = c(1, 2, 3)
+)
+
+df3_imported$House_Integer <- as.integer(as.character(df3_imported$House_Factor))
+
+print("Data frame with new House factors/integers:")
+df3_imported[, c("Types_of_Houses", "House_Integer")]
+```
+
+```{r}
+# Q3d: Factor Father's Occupation (Already coded 1, 2, 3 in Fathers_Occupation_Code)
+# Convert the existing numeric code into a factor with descriptive labels.
+
+df3_imported$Occupation_Factor <- factor(
+  df3_imported$Fathers_Occupation_Code,
+  levels = c(1, 2, 3),
+  labels = c("Farmer", "Driver", "Others")
+)
+
+print("Data frame with new Occupation factor:")
+df3_imported[, c("Fathers_Occupation_Code", "Occupation_Factor")]
+```
+
+```{r}
+# Q3e: Select Females AND Driver Fathers
+# Use the factor columns for clean logical subsetting
+df3_imported[df3_imported$Sex == "Female" & df3_imported$Occupation_Factor == "Driver", ]
+```
+
+```{r}
+# Q3f: Select respondents with Siblings_at_School >= 5
+df3_imported[df3_imported$Siblings_at_School >= 5, ]
+```
+
+```{r}
+#4. Interpret the Graph
+#Overall Trend: The bar chart displays the count of tweets categorized by sentiment (Negative, Neutral, Positive) across several selected days in July 2020 (July 14, 15, 17, 18, 20, and 21).
+#Negative Sentiment: Negative tweets (red bars) generally show the highest count among all sentiment types across the observed days. The peak negative count occurs on July 15, 2020, reaching approximately 4000 tweets.
+#Positive Sentiment: Positive tweets (blue bars) are consistently the second highest sentiment category on most days (July 15, 17, 18, 21), and are the highest on July 21, 2020, at approximately 3400 tweets.
+#Neutral Sentiment: Neutral tweets (yellow bars) generally have the lowest count across the observed period.
+#Comparison of Days:
+#July 15, 2020 had the highest overall volume of tweets, driven primarily by the high negative count.
+#July 21, 2020 saw a significant increase in both Positive and Neutral sentiments, with Positive becoming the dominant sentiment for that day.
+#July 20, 2020 appears to be the day with the lowest tweet volume across all sentiment categories.
+```

@@ -1,3 +1,15 @@
+---
+title: "RWorksheet_prado#2"
+author: "Prado, James Harry U."
+date: "2025-10-07"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
 # 1a. Sequence from 5 to 5
 5:5
 
@@ -7,7 +19,9 @@ x
 
 # 2a. seq(1, 3, by=0.2)
 seq(1, 3, by = 0.2)
+```
 
+```{r}
 # 3. Ages of 50 workers
 ages_50 <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 53, 41, 51, 35, 24, 33, 41, 37, 46, 25, 17, 37, 42, 53, 40, 18, 44, 38, 41, 48, 27, 22, 37, 34, 19, 20, 57, 49, 50)
 
@@ -21,6 +35,9 @@ min(ages_50)
 max(ages_50)
 # Use table() to find the mode (most frequent value)
 table(ages_50)
+```
+
+```{r}
 # 6a. Create Data Frame
 month <- c("Jan", "Feb", "March", "Apr", "May", "June")
 price_per_liter <- c(52.50, 57.25, 60.00, 65.00, 74.25, 76.50)
@@ -30,7 +47,9 @@ fuel_data
 
 # 6b. Average Fuel Expenditure (Weighted Mean)
 weighted.mean(fuel_data$Price_PHP, fuel_data$Quantity_Ltr)
+```
 
+```{r}
 Celebrity_Name <- c(
   "Tom Cruise", "Rolling Stones", "Oprah Winfrey", "U2", "Tiger Woods",
   "Steven Spielberg", "Howard Stern", "50 Cent", "Cast of the Sopranos", "Dan Brown",
@@ -45,7 +64,9 @@ Annual_Pay <- c(
   55, 44, 55, 40, 233, 34, 40, 47, 75, 25,
   39, 45, 32, 40, 31
 )
+```
 
+```{r}
 JK_Rowling_Index <- which(Celebrity_Name == "J.K Rowling")
 
 Power_Ranking[JK_Rowling_Index] <- 15
@@ -60,4 +81,4 @@ Forbes_Data_Modified <- data.frame(
 
 cat("Modified data for J.K. Rowling (Row ", JK_Rowling_Index, "):", "\n")
 Forbes_Data_Modified[JK_Rowling_Index, ]
-
+```
